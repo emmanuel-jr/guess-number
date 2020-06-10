@@ -1,20 +1,20 @@
 /**
  * Guess The Number Game
  * TODO: Get user value from input and save it to variable numberGuess
- * TODO: Generate a random number 1 to 100 and save it to variable correctNumber
- * TODO: Console whether the guess is too high, too low, or is correct inside playGame function
- * TODO: Create a function called displayResult to move the logic for if the guess is too high, too low, or correct
- * TODO: Complete the showYouWon, showNumberAbove, showNumberBelow
- * TODO: Use the showYouWon... functions within displayResult to display the correct dialog
- * TODO: Save the guess history in a variable called guess
- * TODO: Display the guess history using displayHistory() function
- * TODO: Use the initGame() function to restart the game
+ * TODO: Generate a random number 1 to 100 and save it to variable correctNumber   d
+ * TODO: Console whether the guess is too high, too low, or is correct inside playGame function   
+ * TODO: Create a function called displayResult to move the logic for if the guess is too high, too low, or correct   d
+ * TODO: Complete the showYouWon, showNumberAbove, showNumberBelow      d
+ * TODO: Use the showYouWon... functions within displayResult to display the correct dialog    d
+ * TODO: Save the guess history in a variable called guess  d
+ * TODO: Display the guess history using displayHistory() function    d
+ * TODO: Use the initGame() function to restart the game    d
  */
 
 // Variable to store the list of guesses 
-
+var guessList = [];
 // Variable for store the correct random number 
-
+var correct = getRandomNumber();
 
 window.onload = function() {
     document.getElementById("number-submit").addEventListener("click", playGame);
@@ -26,6 +26,10 @@ window.onload = function() {
  */
 function playGame(){
   // *CODE GOES BELOW HERE *
+  var numberGuess = document.getElementById("number-guess").value;
+  displayResult(numberGuess);
+  saveGuessHistory(numberGuess);
+  displayHistory();
 }
 
 /**
@@ -33,6 +37,20 @@ function playGame(){
  * HINT: Use if, else if, else statement 
  */
 // *CODE GOES BELOW HERE *
+function displayResult (guess) {
+
+  if (guess > correct) {
+  showNumberAbove();
+  }
+
+  else if (guess < correct) {
+  showNumberBelow();
+  }
+
+  else {
+    showYouWon();
+  }
+}
 
 
 
@@ -42,6 +60,11 @@ function playGame(){
  */
 function initGame(){
   // *CODE GOES BELOW HERE *
+  document.getElementById("number-guess").value = null;
+  correct = null;
+  resetResultContent();
+  guessList = [];
+  displayHistory();
 }
 
 /**
@@ -57,6 +80,7 @@ function resetResultContent(){
  */
 function getRandomNumber(){
   // *CODE GOES BELOW HERE *
+  return Math.floor(Math.random() * 100) + 1;
 }
 
 /**
@@ -66,21 +90,24 @@ function getRandomNumber(){
  */
 function saveGuessHistory(guess) {
   // *CODE GOES BELOW HERE *
+  guessList.push(guess);
 }
 
 /**
  * Display guess history to user
  * HTML TO USE:
  * <ul class='list-group'>
- *  <li class='list-group-item'>You guessed {number}</li
+ *  <li class='list-group-item'>You guessed {number}</li>
  * </ul>
  * HINT: use while loop and string concatentation to create a list of guesses
  */
 function displayHistory() {
-  let index; // TODO
-  let list = "<ul class='list-group'>";
+  var list = "<ul class='list-group'>";
+  for (let index = guessList.length - 1; index >= 0; index--) {   // TODO
   // *CODE GOES BELOW HERE *
-  list += '</ul>'
+  list += "<li class='list-group-item'> You guessed " + guessList[index] + "</li>";
+  }
+  list += "</ul>";
   document.getElementById("history").innerHTML = list;
 }
 
@@ -112,6 +139,7 @@ function showYouWon(){
    * HINT: Use the 'won' and text parameters 
    */
   // *CODE GOES BELOW HERE *
+  let dialog = getDialog("won", text);
 
   document.getElementById("result").innerHTML = dialog;
 }
@@ -124,6 +152,7 @@ function showNumberAbove(){
    * HINT: Use the 'warning' and text parameters 
    */
   // *CODE GOES BELOW HERE *
+  let dialog = getDialog("warning", text);
 
   document.getElementById("result").innerHTML = dialog;
 }
@@ -136,6 +165,7 @@ function showNumberBelow(){
    * HINT: Use the 'warning' and text parameters 
    */
   // *CODE GOES BELOW HERE *
+  let dialog = getDialog("warning", text);
 
   document.getElementById("result").innerHTML = dialog;
 }
